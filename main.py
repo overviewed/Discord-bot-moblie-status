@@ -6,7 +6,6 @@ def source(o):
     indent = len(s[0]) - len(s[0].lstrip())
     return "\n".join(i[indent:] for i in s)
 
-
 source_ = source(discord.gateway.DiscordWebSocket.identify)
 patched = re.sub(
     r'([\'"]\$browser[\'"]:\s?[\'"]).+([\'"])', 
@@ -16,9 +15,7 @@ patched = re.sub(
 
 loc = {}
 exec(compile(ast.parse(patched), "<string>", "exec"), discord.gateway.__dict__, loc)
-
 discord.gateway.DiscordWebSocket.identify = loc["identify"]
-
 
 client = commands.Bot(command_prefix = ".")
 
@@ -26,4 +23,4 @@ client = commands.Bot(command_prefix = ".")
 async def on_ready():
   await client.change_presence(activity=discord.Game(name="a game"))
 
-client.run("")
+client.run("token_here")
